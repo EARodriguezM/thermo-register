@@ -3,18 +3,18 @@
 `<i>`This repository contain the files to reproduce the system exposed in the paper titled [Insertar Nombre del Paper](linkdelpaper), which has the function of measure a chemical reaction temperature using two types of thermocouples and an IR sensor. These measurements are displayed in real time on an OLED display and are recorded in a CSV file on the connected SD memory.`</i>`
 
 
-`<a href="https://github.com/EARodriguezM/thermo-register/stargazers"><img src="https://img.shields.io/github/stars/peng-zhihui/ElectronBot" alt="Stars Badge"/>``</a>`
-`<a href="https://github.com/EARodriguezM/thermo-register/network/members"><img src="https://img.shields.io/github/forks/peng-zhihui/ElectronBot" alt="Forks Badge"/>``</a>`
-`<a href="https://github.com/EARodriguezM/thermo-register/pulls"><img src="https://img.shields.io/github/issues-pr/peng-zhihui/ElectronBot" alt="Pull Requests Badge"/>``</a>`
-`<a href="https://github.com/EARodriguezM/thermo-register/issues"><img src="https://img.shields.io/github/issues/peng-zhihui/ElectronBot" alt="Issues Badge"/>``</a>`
-`<a href="https://github.com/EARodriguezM/thermo-register/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/peng-zhihui/ElectronBot?color=2b9348">``</a>`
-`<a href="https://github.com/EARodriguezM/thermo-register/blob/master/LICENSE"><img src="https://img.shields.io/github/license/peng-zhihui/ElectronBot?color=2b9348" alt="License Badge"/>``</a>`
+`<a href="https://github.com/EARodriguezM/thermo-register/stargazers"><img src="https://img.shields.io/github/stars/EARodriguezM/thermo-register" alt="Stars Badge"/>``</a>`
+`<a href="https://github.com/EARodriguezM/thermo-register/network/members"><img src="https://img.shields.io/github/forks/EARodriguezM/thermo-register" alt="Forks Badge"/>``</a>`
+`<a href="https://github.com/EARodriguezM/thermo-register/pulls"><img src="https://img.shields.io/github/issues-pr/EARodriguezM/thermo-register" alt="Pull Requests Badge"/>``</a>`
+`<a href="https://github.com/EARodriguezM/thermo-register/issues"><img src="https://img.shields.io/github/issues/EARodriguezM/thermo-register" alt="Issues Badge"/>``</a>`
+`<a href="https://github.com/EARodriguezM/thermo-register/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/EARodriguezM/thermo-register?color=2b9348">``</a>`
+`<a href="https://github.com/EARodriguezM/thermo-register/blob/master/LICENSE"><img src="https://img.shields.io/github/license/EARodriguezM/thermo-register?color=2b9348" alt="License Badge"/>``</a>`
 
 `<a href="https://github.com/EARodriguezM/thermo-register"><img src="https://img.shields.io/static/v1?label=&labelColor=505050&message=Chinese 中文自述文件&color=%230076D6&style=flat&logo=google-chrome&logoColor=green" alt="website"/>``</a>`
 
 `<a href="https://github.com/EARodriguezM/thermo-register/blob/main/enREADME.md"><img src="https://img.shields.io/static/v1?label=&labelColor=505050&message=Spanish README &color=%230076D6&style=flat&logo=google-chrome&logoColor=green" alt="website"/>``</a>`
 
-<!-- <img src="http://hits.dwyl.com/peng-zhihui/ElectronBot.svg" alt="Hits Badge"/> -->
+<!-- <img src="http://hits.dwyl.com/EARodriguezM/thermo-register.svg" alt="Hits Badge"/> -->
 
 `<i>`Loved the project? Please consider giving a Star ⭐️ to help it improve!`</i>`
 
