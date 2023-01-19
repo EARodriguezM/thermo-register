@@ -49,6 +49,7 @@ This system area have two parts for the pin connections.
 #### Infrared temperature sensor
 
 > The IR sensor has connections to multiple devices, be careful with the device column.
+
 | IR SENSOR | PIN | DEVICE |
 | :----: | :----: | :----: |
 | Black wire | -terminal | Supply power |
@@ -65,7 +66,7 @@ This system area have two parts for the pin connections.
 | VCC | + terminal | Supply power |
 | VOUT | A0 | Arduino UNO|
 
-#### real data display and micro-SD data collection
+#### Real data display and micro-SD data record
 
 | SSD1306 OLED 128sx64 | Arduino UNO |
 | :----:  | :----:  |

@@ -18,7 +18,9 @@
 
   #define SCREEN_WIDTH 128      // Screen Width
   #define SCREEN_HEIGHT 64      // Screen Height
-  #define OLED_RESET     4      // Pin Arduino - SDA
+  #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
+  #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; Use i2c_scanner to found the address of the screen
+
 
   // Initialize the OLED Display 
   Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
@@ -33,12 +35,10 @@
   #define CS1 A1           // MAX6675 - CS1 (Chip Select 1)
   #define CS2 A2           // MAX6675 - CS2 (Chip Select 2)
   #define CS3 A3           // MAX6675 - CS3 (Chip Select 3)
-  #define CS4 A4           // MAX6675 - CS4 (Chip Select 4)
 
   double valueSensor1 = 0;       // Value of sensor 1
   double valueSensor2 = 0;       // Value of sensor 2
   double valueSensor3 = 0;       // Value of sensor 3
-  double valueSensor4 = 0;       // Value of sensor 4
 
 #pragma endregion
 
@@ -117,18 +117,16 @@ void setup()
   pinMode(CS1, OUTPUT);
   pinMode(CS2, OUTPUT);
   pinMode(CS3, OUTPUT);
-  pinMode(CS4, OUTPUT);
-  
+
   // MAX6675 Initial state
   digitalWrite(CS1, HIGH);
   digitalWrite(CS2, HIGH);
   digitalWrite(CS3, HIGH);
-  digitalWrite(CS4, HIGH);
-  
+
   //Display initialization
   displayInit();
   delay(2000);
-  
+
   // SD Card initialization
   sdInit();
   delay(1000);
@@ -136,6 +134,7 @@ void setup()
   // Button initialization
   button.attach(BUTTON_PIN, INPUT_PULLUP); // Attach the button to the pin
   button.interval(DEBOUNCE_INTERVAL);      // Set the debounce interval
+
 }
  
  
@@ -159,13 +158,7 @@ void loop() {
 
   readData();
 
-  Serial.print(valueSensor1);
-  Serial.print(";");  
-  Serial.print(valueSensor2);
-  Serial.print(";");  
-  Serial.print(valueSensorIR);
-  Serial.print(";"); 
-  Serial.println(valueSensor3);
+  Serial.println(sprintf(buff, "%lu,%f;%f;%i;%f", miliMessure,valueSensor1, valueSensor2, valueSensorIR, valueSensor3));
 
   displayingData();
   if (recording){
@@ -188,17 +181,21 @@ void getCursorPos(int *x, int *y){
 // Funtion for display initialization and initial screen
 /**************************************************************************************/
 void displayInit(){
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // Initialize the OLED Display
-  
+  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+  if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;); // Don't proceed, loop forever
+  }
+
   display.setTextColor(SSD1306_WHITE);        // Set the color of the text
   display.clearDisplay();                     // Clear the display
 
   display.setCursor(0,0);                     // Set the cursor to the top left corner
   display.setTextSize(1.5);                   // Set the size of the text
 
-  display.println(" Combustion reaction ");
-  display.println("Sensor T");
-  display.println("LexUnal");
+  display.println(F(" Combustion reaction "));
+  display.println(F("Sensor T"));
+  display.println(F("LexUnal"));
 
   display.write(248);                         // Write the degree symbol (or 176)
   display.display();
@@ -214,16 +211,16 @@ void sdInit(){
   getCursorPos(&x,&y);
 
   // SD Card initialization
-  display.println("Initializing SD card...");
+  display.println(F("Initializing SD card..."));
   display.display();
 
   display.setCursor(x,y);
 
   if (!SD.begin(sdCS, SPI_HALF_SPEED)) {
-    display.println("SD Card initialization failed!");
+    display.println(F("SD Card initialization failed!"));
     return;
   }
-  display.println("SD Card initialization done.");
+  display.println(F("SD Card initialization done."));
 }
 
 /**************************************************************************************/
