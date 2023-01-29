@@ -1,8 +1,8 @@
 /**************************************************************************************/
 #pragma region Import Libraries
 
-  #include <Adafruit_GFX.h>      // General Adafruit Display Library
-  #include <Adafruit_SSD1306.h>  // SSD13066 Monochrome OLED Library
+  #include <Arduino.h>
+  #include <U8x8lib.h>
 
   #include <Wire.h>               // I2C Comunication
   #include <SPI.h>               // Comunnication With SPI Devices
@@ -16,14 +16,20 @@
 /**************************************************************************************/
 #pragma region Define OLED Parameters
 
-  #define SCREEN_WIDTH 128      // Screen Width
-  #define SCREEN_HEIGHT 64      // Screen Height
-  #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-  #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; Use i2c_scanner to found the address of the screen
-
-
   // Initialize the OLED Display 
-  Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+  U8X8_SSD1306_128X64_NONAME_SW_I2C display(/* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // OLEDs without Reset of the Display
+
+
+  #define OLEDWidth                      display.getCols()                                              // OLED Width
+  #define ALIGN_CENTER_WIDTH(text)       ((OLEDWidth - display.getUTF8Len(text)) / 2)  // Center Align
+  #define ALIGN_RIGHT(text)              (OLEDWidth - display.getUTF8Len(text))         // Right Align
+  #define ALIGN_LEFT                     0                                                 // Left Align
+
+  #define OLEDHeight                     display.getRows()                                                // OLED Height
+  #define ALIGN_CENTER_HEIGHT(number)     ((OLEDHeight - (number)) / 2)              // Center Align
+  #define ALIGN_BOTTOM(number)            (OLEDHeight -  (number))                     // Right Align
+  #define ALIGN_TOP                      0                                                 // Left Align
+
 
 #pragma endregion
 
@@ -84,6 +90,7 @@
 
   void getCursorPos(int *x, int *y);
   void displayInit();
+  void msgInit();
   void sdInit();
   void readData();
   int readIR();
@@ -96,20 +103,18 @@
 
 #pragma endregion
 
-/**************************************************************************************/
 
 unsigned long miliMessure;  // Time of the last measurement
+double time;
 
-int arduinoUNOresolution = 1023; // Arduino UNO Resolution
+int arduinoResolution = 1023; // Arduino UNO Resolution
 
 bool recording = false;          // Recording state
 
-char buff[100] = "";             // Buffer to write in the file
+char buff[100];             // Buffer to write in the file
 
 void setup() 
 {
-
-  Serial.begin(9600);
 
   // MAX6675 mode of operation statement
   pinMode(SO, INPUT);
@@ -125,16 +130,16 @@ void setup()
 
   //Display initialization
   displayInit();
-  delay(2000);
+  msgInit();
+  delay(3000);
 
   // SD Card initialization
   sdInit();
-  delay(1000);
+  delay(2000);
 
   // Button initialization
   button.attach(BUTTON_PIN, INPUT_PULLUP); // Attach the button to the pin
   button.interval(DEBOUNCE_INTERVAL);      // Set the debounce interval
-
 }
  
  
@@ -158,47 +163,47 @@ void loop() {
 
   readData();
 
-  Serial.println(sprintf(buff, "%lu,%f;%f;%i;%f", miliMessure,valueSensor1, valueSensor2, valueSensorIR, valueSensor3));
-
   displayingData();
   if (recording){
     displayRecordLogo();
     storeData();
   }
  
-  delay(250);     // Aguarda 250 ms para uma nova leitura e armazenamento no cartão
-}
-
-/**************************************************************************************/
-// Funtion for return x,y cursor position
-/**************************************************************************************/
-void getCursorPos(int *x, int *y){
-  *x = display.getCursorX();
-  *y = display.getCursorY();
+  delay(250);     // Delay 250ms
 }
 
 /**************************************************************************************/
 // Funtion for display initialization and initial screen
 /**************************************************************************************/
 void displayInit(){
+
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+  if(!display.begin()) {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
   }
+  display.setBusClock(2000);  // Set I2C clock to 2KHz
 
-  display.setTextColor(SSD1306_WHITE);        // Set the color of the text
-  display.clearDisplay();                     // Clear the display
+  // display.setFont(u8g2_font_ncenB10_tr);    f          // Set the font
+  display.setFont(u8x8_font_chroma48medium8_r);       // Set the font
 
-  display.setCursor(0,0);                     // Set the cursor to the top left corner
-  display.setTextSize(1.5);                   // Set the size of the text
+}
 
-  display.println(F(" Combustion reaction "));
-  display.println(F("Sensor T"));
-  display.println(F("LexUnal"));
+/**************************************************************************************/
+// Funtion for display initialization and initial screen
+/**************************************************************************************/
+void msgInit(){
 
-  display.write(248);                         // Write the degree symbol (or 176)
-  display.display();
+  byte centerHeight = ALIGN_CENTER_HEIGHT(3);
+  display.setCursor(ALIGN_CENTER_WIDTH("Comb. Reaction"), centerHeight);
+  display.print(F("Comb. Reaction"));          // print a sting (PROGMEM) via RAM array.
+  centerHeight++;
+  display.setCursor(ALIGN_CENTER_WIDTH("Sensor T"), centerHeight);
+  display.print(F("Sensor T"));          // print a sting (PROGMEM) via RAM array.
+  centerHeight++;
+  display.setCursor(ALIGN_CENTER_WIDTH("UNAL"), centerHeight);
+  display.print(F("UNAL"));          // print a sting (PROGMEM) via RAM array.
+
 }
 
 /**************************************************************************************/
@@ -207,20 +212,29 @@ void displayInit(){
 void sdInit(){
 
   // Get the cursor position
-  int x,y;
-  getCursorPos(&x,&y);
+  // int x,y;
+  // getCursorPos(&x,&y);
 
   // SD Card initialization
-  display.println(F("Initializing SD card..."));
-  display.display();
+  display.clearDisplay();
+  byte centerHeight = ALIGN_CENTER_HEIGHT(3);
 
-  display.setCursor(x,y);
+  display.setCursor(ALIGN_CENTER_WIDTH("Init SDcard..."), centerHeight);
+  display.println(F("Init SDcard..."));
+  centerHeight=+2;
 
   if (!SD.begin(sdCS, SPI_HALF_SPEED)) {
-    display.println(F("SD Card initialization failed!"));
+    delay(1000);
+    display.setCursor(ALIGN_CENTER_WIDTH("SD init failed!"), centerHeight);
+    display.println(F("SD init failed!"));
     return;
   }
-  display.println(F("SD Card initialization done."));
+
+  delay(1000);
+  display.setCursor(ALIGN_CENTER_WIDTH("SD init done"), centerHeight);
+  display.println(F("SD init done"));
+  delay(3000);
+
 }
 
 /**************************************************************************************/
@@ -242,7 +256,7 @@ int readIR()
   int valueIR = analogRead(IR);
 
   // Mapping to adjust the 1023 bits of the Arduino UNO to the range of the sensor. 
-  valueIR = map(valueIR, 0, arduinoUNOresolution, 0, maxTemperatureIR);
+  valueIR = map(valueIR, 0, arduinoResolution, 0, maxTemperatureIR);
 
   return valueIR;
 }
@@ -294,22 +308,35 @@ byte SPIRead(void) {
 // Function for displaying the reading data previously made
 /**************************************************************************************/
 void displayingData() {
-  display.clearDisplay();
-  display.setTextSize(1.5);
-  display.setCursor(10,5);
-  display.print("T1: ");
-  display.print(valueSensor1);
-  display.setCursor(10,25);
-  display.print("T2: ");
-  display.print(valueSensor2);
-  display.setCursor(10,45);
+  byte centerHeight = ALIGN_CENTER_HEIGHT(8);
+
+  display.setCursor(0,centerHeight);
+  display.print("TEMPERATURES");
+
+
+
+  centerHeight=+2;
+  display.clearLine(centerHeight);
+  display.setCursor(0,centerHeight);
   display.print("IR: ");
   display.print(valueSensorIR);
-  display.setCursor(10,55);
+  centerHeight++;
+  display.clearLine(centerHeight);
+  display.setCursor(0,centerHeight);
+  display.print("T1: ");
+  display.print(valueSensor1);
+  centerHeight++;
+  display.clearLine(centerHeight);
+  display.setCursor(0,centerHeight);
+  display.print("T2: ");
+  display.print(valueSensor2);
+  centerHeight++;
+  display.clearLine(centerHeight);
+  display.setCursor(0,centerHeight);
   display.print("T3: ");
   display.print(valueSensor3);
+  centerHeight++;
   display.write(248);
-  display.display();  
 }
 
 /**************************************************************************************/
@@ -322,7 +349,7 @@ String createFile() {
       // file.open(String(i)+".csv", O_RDWR | O_CREAT);
       file = SD.open(String(i)+".csv", FILE_WRITE);     // Open the file for writing
 
-      file.println(sprintf(buff, "TIME;SENSOR 1;SENSOR 2; SENSOR IR; SENSOR 3")); // Write the header of the file
+      file.println(sprintf(buff, "TIME;SENSOR IR;SENSOR 1;SENSOR 2;SENSOR 3")); // Write the header of the file
 
       return String(i)+".csv";
     }
@@ -345,7 +372,7 @@ void displayRecordLogo() {
 // Function for storing the reading data previously made
 /**************************************************************************************/
 void storeData() {
-  char buff[32];
-  file.println(sprintf(buff, "%lu,%f;%f;%i;%f", miliMessure,valueSensor1, valueSensor2, valueSensorIR, valueSensor3));
+  sprintf(buff, "%lu;%i%f;%f;%f", miliMessure, valueSensorIR, valueSensor1, valueSensor2, valueSensor3);
+  file.println(buff);
   file.flush();
 }
