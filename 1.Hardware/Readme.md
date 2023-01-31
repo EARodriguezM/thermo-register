@@ -10,7 +10,7 @@ In this folder you will find the design files (Schematics, Pictorial) and the co
 
 ### Components
 
-The components listed here are for a BreadBoard assembly as shown in the [image](./1.%20Pictorial%20diagramcircuit.png)1. Pictorial diagram circuit.png) on the repository home page.
+The components listed here are for a BreadBoard assembly as shown in the [image](https://github.com/EARodriguezM/thermo-register/blob/main/1.Hardware/1.%20Pictorial%20diagram%20circuit.png)1. Pictorial diagram circuit.png) on the repository home page.
 
 - Arduino UNO
 - 3 MAX6675 module
