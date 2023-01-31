@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name "Converter_DCtoV")(type "KiCad")(uri "${KIPRJMOD}/Library/Library.pretty")(options "")(descr ""))
-)

@@ -1,15 +1,16 @@
 # Hardware
 
-<i>In this folder you will find the design files (Schematics, PCB files) and production files (Gerber folder) for the fabrication of a PCB that allows the assembly of the different components used in the system.
+<!-- <i>In this folder you will find the design files (Schematics, PCB files) and production files (Gerber folder) for the fabrication of a PCB that allows the assembly of the different components used in the system.
 
 On the other hand, below is the list of the components used in the system, as well as the connection between the pins of the components/microcontroller divided into three sectors.</i>
 
-> **Note:** The BOM.csv file contains the complete description of the components used to manufacture the PCB. The BOM.csv file contains the complete description of the components used to manufacture the PCB, where you will see that the bill of materials is different from the one below, this is because the modules are assembled on the PCB by means of headers connectors. For more details, check the schematic file.
+> **Note:** The BOM.csv file contains the complete description of the components used to manufacture the PCB. The BOM.csv file contains the complete description of the components used to manufacture the PCB, where you will see that the bill of materials is different from the one below, this is because the modules are assembled on the PCB by means of headers connectors. For more details, check the schematic file. -->
 
+In this folder you will find the design files (Schematics, Pictorial) and the connection between the pins of the components/microcontroller divided into three sectors.
 
 ### Components
 
-The components listed here are for a BreadBoard assembly as shown in the [image](/4.Docs/Images/pictorial_circuit_diagram.png) on the repository home page.
+The components listed here are for a BreadBoard assembly as shown in the [image](1. Pictorial diagram circuit.png) on the repository home page.
 
 - Arduino UNO
 - MAX6675 module
@@ -55,7 +56,7 @@ This system area have two parts for the pin connections.
 | Black wire | -terminal | Supply power |
 | Red wire | + terminal | Supply power |
 | Blue wire | I+ | HW-685 module|
-| Orange wire | 2I-| HW-685 module |
+| Orange wire | I- | HW-685 module |
 
 
 > The HW-685 module has connections to multiple devices, be careful with the device column.
