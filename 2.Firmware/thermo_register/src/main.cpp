@@ -80,7 +80,7 @@
 
   Bounce button = Bounce();    // Debounce object
 
-  #define BUTTON_PIN 7         // Button Pin
+  #define BUTTON_PIN 5         // Button Pin
   #define DEBOUNCE_INTERVAL 200 // Debounce interval
 
 #pragma endregion
