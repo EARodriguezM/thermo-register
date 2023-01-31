@@ -10,15 +10,16 @@ In this folder you will find the design files (Schematics, Pictorial) and the co
 
 ### Components
 
-The components listed here are for a BreadBoard assembly as shown in the [image](1. Pictorial diagram circuit.png) on the repository home page.
+The components listed here are for a BreadBoard assembly as shown in the [image](./1.%20Pictorial%20diagramcircuit.png)1. Pictorial diagram circuit.png) on the repository home page.
 
 - Arduino UNO
-- MAX6675 module
+- 3 MAX6675 module
 - HW-685
 - SSD1306 OLED 128sx64
 - microSD module
 - Push button
 - 10K Ohm Resistor
+- IR sensor HL600-400A
 
 ### Pin Connections
 
