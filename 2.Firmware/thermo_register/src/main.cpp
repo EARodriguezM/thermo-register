@@ -80,8 +80,8 @@
 
   Bounce button = Bounce();    // Debounce object
 
-  #define BUTTON_PIN 5         // Button Pin
-  #define DEBOUNCE_INTERVAL 20 // Debounce interval
+  #define BUTTON_PIN 7         // Button Pin
+  #define DEBOUNCE_INTERVAL 200 // Debounce interval
 
 #pragma endregion
 
@@ -116,6 +116,8 @@ char buff[100];             // Buffer to write in the file
 void setup() 
 {
 
+  Serial.begin(9600); // Initialize serial communication at 9600 bits per second
+
   // MAX6675 mode of operation statement
   pinMode(SO, INPUT);
   pinMode(SCLK, OUTPUT);
@@ -127,6 +129,13 @@ void setup()
   digitalWrite(CS1, HIGH);
   digitalWrite(CS2, HIGH);
   digitalWrite(CS3, HIGH);
+  // SPI.begin();
+
+  // sdCard mode of operation statement
+  pinMode(sdCS, OUTPUT);
+  
+  // sdCard initial state
+  digitalWrite(sdCS, LOW);
 
   //Display initialization
   displayInit();
@@ -156,7 +165,7 @@ void loop() {
     }
 
     if (!recording){
-      miliMessure = 0; //stop and reset the timer
+      display.clearLine(1);
       file.close();
     }
   }
@@ -164,6 +173,7 @@ void loop() {
   readData();
 
   displayingData();
+  
   if (recording){
     displayRecordLogo();
     storeData();
@@ -225,12 +235,14 @@ void sdInit(){
 
   if (!SD.begin(sdCS, SPI_HALF_SPEED)) {
     delay(1000);
+    display.clearDisplay();
     display.setCursor(ALIGN_CENTER_WIDTH("SD init failed!"), centerHeight);
     display.println(F("SD init failed!"));
     return;
   }
 
   delay(1000);
+  display.clearDisplay();
   display.setCursor(ALIGN_CENTER_WIDTH("SD init done"), centerHeight);
   display.println(F("SD init done"));
   delay(3000);
@@ -243,8 +255,8 @@ void sdInit(){
 void readData(){
   valueSensorIR = readIR();
 
-  valueSensor1 = readThermocouple(CS2);
-  valueSensor2 = readThermocouple(CS1);
+  valueSensor1 = readThermocouple(CS1);
+  valueSensor2 = readThermocouple(CS2);
   valueSensor3 = readThermocouple(CS3);
 }
 
@@ -291,7 +303,7 @@ byte SPIRead(void) {
  
   // FOR loop to catch 8 bits at a time
   for (i = 7; i >= 0; i--)    
-  {
+  {  
     digitalWrite(SCLK, LOW);  // Clock Falling Edge
     _delay_ms(1);             // Wait 1ms
     if (digitalRead(SO)) {    // Reads the MAX output data pin
@@ -336,7 +348,6 @@ void displayingData() {
   display.print("T3: ");
   display.print(valueSensor3);
   centerHeight++;
-  display.write(248);
 }
 
 /**************************************************************************************/
@@ -349,7 +360,7 @@ String createFile() {
       // file.open(String(i)+".csv", O_RDWR | O_CREAT);
       file = SD.open(String(i)+".csv", FILE_WRITE);     // Open the file for writing
 
-      file.println(sprintf(buff, "TIME;SENSOR IR;SENSOR 1;SENSOR 2;SENSOR 3")); // Write the header of the file
+      file.println("TIME;SENSOR IR;SENSOR 1;SENSOR 2;SENSOR 3"); // Write the header of the file
 
       return String(i)+".csv";
     }
@@ -361,18 +372,22 @@ String createFile() {
 /**************************************************************************************/
 void displayRecordLogo() {
 
-  display.setCursor(0,48);
-  display.write(254);
+  display.setCursor(ALIGN_RIGHT("REC"),1);
   display.print("REC");
-  display.display();
-
 }
 
 /**************************************************************************************/
 // Function for storing the reading data previously made
 /**************************************************************************************/
 void storeData() {
-  sprintf(buff, "%lu;%i%f;%f;%f", miliMessure, valueSensorIR, valueSensor1, valueSensor2, valueSensor3);
-  file.println(buff);
+  file.print(millis() - miliMessure);
+  file.print(";");
+  file.print(valueSensorIR);
+  file.print(";");
+  file.print(valueSensor1);
+  file.print(";");
+  file.print(valueSensor2);
+  file.print(";");
+  file.println(valueSensor3);
   file.flush();
 }
