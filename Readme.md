@@ -1,6 +1,6 @@
 # ThermoRegister
 
-*This repository contain the files to reproduce the system exposed in the paper titled **Influence of ammonium nitrate in the synthesis of alpha tricalcium phosphates (α-TCP) in one-step by solution combustion** <!--(linkdelpaper)-->, which has the function of measure a chemical reaction temperature using two types of thermocouples and an IR sensor. These measurements are displayed in real time on an OLED display and are recorded in a CSV file on the connected SD memory.*
+*This repository contain the files to reproduce the system exposed in the paper titled [**Influence of ammonium nitrate in the synthesis of alpha tricalcium phosphates (α-TCP) in one-step by solution combustion**](https://link.springer.com/article/10.3103/S1061386223030068), which has the function of measure a chemical reaction temperature using two types of thermocouples and an IR sensor. These measurements are displayed in real time on an OLED display and are recorded in a CSV file on the connected SD memory.*
 
 <a href="https://github.com/EARodriguezM/thermo-register/stargazers"><img src="https://img.shields.io/github/stars/EARodriguezM/thermo-register" alt="Stars Badge"/></a> 
 <a href="https://github.com/EARodriguezM/thermo-register/network/members"><img src="https://img.shields.io/github/forks/EARodriguezM/thermo-register" alt="Forks Badge"/></a>
