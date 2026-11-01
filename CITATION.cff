@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+title: "ThermoRegister: temperature acquisition system for solution combustion synthesis"
+abstract: "Hardware design, firmware and CAD files to reproduce the low-cost temperature measurement system used in the paper 'Influence of Ammonium Nitrate in the Synthesis of Alpha Tricalcium Phosphates (α-TCP) in One Step by Solution Combustion' (International Journal of Self-Propagating High-Temperature Synthesis, 2023, 32(3), 192-199). The system records the reaction temperature with two type-K thermocouples and an infrared sensor."
+authors:
+  - family-names: "Rodríguez Meléndez"
+    given-names: "Esteban Andrés"
+    affiliation: "Universidad Nacional de Colombia, Sede de La Paz"
+repository-code: "https://github.com/EARodriguezM/thermo-register"
+version: "v1.0.2"
+date-released: "2026-10-31"
+keywords:
+  - "solution combustion synthesis"
+  - "thermocouple"
+  - "infrared sensor"
+  - "data acquisition"
+  - "calcium phosphates"
+  - "embedded systems"
+references:
+  - type: article
+    title: "Influence of Ammonium Nitrate in the Synthesis of Alpha Tricalcium Phosphates (α-TCP) in One Step by Solution Combustion"
+    authors:
+      - family-names: "Chavarriaga"
+        given-names: "E. A."
+      - family-names: "Rodriguez"
+        given-names: "E."
+      - family-names: "Perez-Taborda"
+        given-names: "J. A."
+      - family-names: "García"
+        given-names: "C."
+      - family-names: "Lopera"
+        given-names: "A. A."
+    journal: "International Journal of Self-Propagating High-Temperature Synthesis"
+    volume: 32
+    issue: 3
+    start: 192
+    end: 199
+    year: 2023
+    doi: "10.3103/S1061386223030068"

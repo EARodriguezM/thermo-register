@@ -1,0 +1,29 @@
+{
+  "title": "ThermoRegister: temperature acquisition system for solution combustion synthesis",
+  "upload_type": "software",
+  "description": "Hardware design, firmware and CAD files to reproduce the low-cost temperature measurement system used in the paper \"Influence of Ammonium Nitrate in the Synthesis of Alpha Tricalcium Phosphates (α-TCP) in One Step by Solution Combustion\" (International Journal of Self-Propagating High-Temperature Synthesis, 2023, 32(3), 192-199). The system records the reaction temperature with two type-K thermocouples and an infrared sensor.",
+  "creators": [
+    {
+      "name": "Rodríguez Meléndez, Esteban Andrés",
+      "affiliation": "Universidad Nacional de Colombia, Sede de La Paz"
+    }
+  ],
+  "keywords": [
+    "solution combustion synthesis",
+    "thermocouple",
+    "infrared sensor",
+    "data acquisition",
+    "calcium phosphates",
+    "embedded systems"
+  ],
+  "access_right": "open",
+  "version": "v1.0.2",
+  "related_identifiers": [
+    {
+      "identifier": "10.3103/S1061386223030068",
+      "relation": "isSupplementTo",
+      "scheme": "doi",
+      "resource_type": "publication-article"
+    }
+  ]
+}
